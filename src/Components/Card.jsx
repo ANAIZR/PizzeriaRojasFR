@@ -49,6 +49,7 @@ export default function ImgMediaCard() {
                     <Button size="small">Añadir</Button>
                 </CardActions>
             </Card>
+            
         </div>
 
 
