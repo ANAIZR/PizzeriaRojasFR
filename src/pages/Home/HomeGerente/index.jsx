@@ -18,7 +18,7 @@ export default function HomeGerente() {
           style={{ backgroundImage: `url(${users})` }}
         >
           <button className="m-2 p-2 border-2 border-red-600 rounded-md bg-white bg-opacity-70">
-            <Link to={'/inventario'}> Gestionar Pizzas </Link>
+            <Link to={'/pizzas'}> Gestionar Pizzas </Link>
            
           </button>
         </div>

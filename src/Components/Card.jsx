@@ -5,52 +5,47 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import logo_pizza from '../assets/logo_pizza.png'
+import { Link } from "react-router-dom";
+
 export default function ImgMediaCard() {
     return (
-        <div className='flex p-2'>
-            <Card sx={{ maxWidth: 220 }} className='m-2'>
-                <CardMedia
-                    component="img"
-                    alt="pizza americana"
-                    height="140"
-                    image={logo_pizza}
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        Americana
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Jamón y Queso.
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button size="small">Ver</Button>
-                    <Button size="small">Añadir</Button>
-                </CardActions>
-            </Card>
-            <Card sx={{ maxWidth: 220 }} className='m-2'>
-                <CardMedia
-                    component="img"
-                    alt="pizza americana"
-                    height="140"
-                    image={logo_pizza}
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        Americana
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Jamón y Queso.
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button size="small">Ver</Button>
-                    <Typography variant='body2' color="text.secondary">15</Typography>
-                    <Button size="small">Añadir</Button>
-                </CardActions>
-            </Card>
-            
-        </div>
+        <main className='p-2'>
+            <section className='flex '>
+
+                <Card sx={{ maxWidth: 220 }} className='m-2'>
+                    <CardMedia
+                        component="img"
+                        alt="pizza americana"
+                        height="140"
+                        image={logo_pizza}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div" className='text-center' sx={{color:"brown"}}>
+                            Americana
+                        </Typography>
+                        <Typography variant="body2"  sx={{color:"gray"}} className='text-center'>
+                            Jamón y Queso.
+                        </Typography>
+                    </CardContent>
+                    <CardActions sx={{ justifyContent: 'center' }}>
+                        <Link to={'/gestion-pizza'}>
+                        <Button size="small">Gestionar</Button>
+                        </Link>
+                        
+                    </CardActions>
+                </Card>
+
+            </section>
+            <section className='p-1 flex items-center justify-center'>
+                <Link to={'/forms-pizza'}>
+                    <Button variant='contained' color="success">
+                        Agregar Pizza
+                    </Button>
+                </Link>
+            </section>
+
+        </main>
+
 
 
     );

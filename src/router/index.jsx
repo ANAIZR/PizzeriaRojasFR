@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LoginPage, InventarioPage, HomeGerencia } from "../pages";
+import { LoginPage, HomeGerencia, VistaPizza, FormsPizza, GestionarPizza } from "../pages";
 import { HeaderMenuGerente, HeaderGestionPizza } from "../layouts";
 export default function Router() {
     return (
@@ -12,7 +12,9 @@ export default function Router() {
                 </Route>
 
                 <Route element={<HeaderGestionPizza />}>
-                    <Route path="/inventario" element={<InventarioPage />} />
+                    <Route path="/pizzas" element={<VistaPizza />} />
+                    <Route path="/forms-pizza" element={<FormsPizza />} />
+                    <Route path="/gestion-pizza" element={<GestionarPizza />} />
                 </Route>
             </Routes>
         </BrowserRouter>
