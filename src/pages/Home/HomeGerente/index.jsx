@@ -17,10 +17,12 @@ export default function HomeGerente() {
           className="relative bg-cover bg-center h-40 w-40 flex items-center justify-center"
           style={{ backgroundImage: `url(${users})` }}
         >
-          <button className="m-2 p-2 border-2 border-red-600 rounded-md bg-white bg-opacity-70">
-            <Link to={'/pizzas'}> Gestionar Pizzas </Link>
-           
-          </button>
+          <Link to={'/pizzas'}>
+            <button className="m-2 p-2 border-2 border-red-600 rounded-md bg-white bg-opacity-70">
+              Gestionar Pizza
+            </button>
+          </Link>
+
         </div>
         <div
           className="relative bg-cover bg-center h-40 w-40 flex items-center justify-center"
