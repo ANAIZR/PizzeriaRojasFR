@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
+import ModalSuccess from '../../Components/ModalSuccess';
 
 export default function GestionarPizza() {
     const { id } = useParams();
@@ -15,7 +15,11 @@ export default function GestionarPizza() {
         fetch('http://127.0.0.1:8000/pizza/v1/sizes/')
             .then(response => response.json())
             .then(data => {
-                setSizes(data); 
+                const mappedSizes = data.map(size => ({
+                    id: size.value,  
+                    name: size.display_name
+                }));
+                setSizes(mappedSizes);
             })
             .catch(error => console.error('Error fetching sizes:', error));
     }, []);
@@ -23,35 +27,69 @@ export default function GestionarPizza() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
+            pizza: id,  
             size: selectedSize,
-            stock: parseInt(stock), 
-            price: parseFloat(price) 
+            stock: parseInt(stock),
+            price: parseFloat(price)
         };
-        fetch(`http://127.0.0.1:8000/pizza/v1/pizzas/${id}/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+
+        fetch(`http://127.0.0.1:8000/pizza/v1/details/`)
+            .then(response => response.json())
+            .then(details => {
+                const existingDetail = details.find(detail => detail.pizza === parseInt(id) && detail.size === selectedSize);
+                if (existingDetail) {
+                    fetch(`http://127.0.0.1:8000/pizza/v1/details/${existingDetail.id}/`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            stock: existingDetail.stock + data.stock,
+                            price: data.price
+                        })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Success:', data);
+                            setShowModal(true);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error.message);
+                        });
+                } else {
+                    fetch(`http://127.0.0.1:8000/pizza/v1/details/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Success:', data);
+                            setShowModal(true);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error.message);
+                        });
                 }
-                return response.json();
             })
-            .then(data => {
-                console.log('Success:', data);
-                setShowModal(true); 
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            .catch(error => console.error('Error fetching details:', error));
     };
 
     const handleCloseModal = () => {
         setShowModal(false);
-        navigate('/pizzas'); 
+        navigate('/pizzas');
     };
 
     return (
@@ -103,6 +141,7 @@ export default function GestionarPizza() {
                     </Link>
                 </div>
             </form>
+            <ModalSuccess show={showModal} handleClose={handleCloseModal} />
         </div>
     );
 }
